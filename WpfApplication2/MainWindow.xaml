@@ -1,0 +1,434 @@
+﻿<Window x:Class="WpfApplication2.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApplication2"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="950" Width="800" 
+        WindowStartupLocation="CenterScreen" ResizeMode="NoResize" Icon="favicon.ico">
+
+
+    <Grid VerticalAlignment="Top" Height="900">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="35"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="40"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+
+        </Grid>
+
+        <Grid HorizontalAlignment="Left" Margin="80,10,0,0" VerticalAlignment="Top" Grid.Row="1" Width="460" >
+            <Grid.RowDefinitions >
+                <RowDefinition Height="75"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="70"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="80"/>
+            </Grid.RowDefinitions>
+            <StackPanel Grid.Row="0" Width="460" Orientation="Horizontal">
+                <Grid Margin="0,0,0,0" Width="230">
+                    <Label x:Name="label_SerialPorts" Content="COM ports:" HorizontalAlignment="Left" Margin="25,14,0,0" VerticalAlignment="Top" Height="25" Width="85" FontWeight="DemiBold"/>
+                    <Button x:Name="button_SerialPort_Open" Content="Open Port" HorizontalAlignment="Left" Margin="137,45,0,0" VerticalAlignment="Top" Width="74" Click="button_SerialPort_Open_Click" Height="20"/>
+                    <Button x:Name="button_SerialPort_Rescan" Content="ReScan" HorizontalAlignment="Left" Margin="137,19,0,0" VerticalAlignment="Top" Width="74" Click="button_SerialPort_Rescan_Click" Height="20"/>
+                    <ComboBox x:Name="comboBox"  Height="20" Margin="25,44,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="85" SelectionChanged="comboBox_SelectionChanged" HorizontalContentAlignment="Center" Padding="0,0,0,0"/>
+                </Grid>
+                <Grid  Margin="0,14,0,0" Width="230"  >
+                    <Label x:Name="labelBaudRate" Content="Baud rate:" HorizontalAlignment="Left" Margin="25,0,0,0" VerticalAlignment="Top" Height="25" Width="70" FontWeight="DemiBold"/>
+                    <RadioButton x:Name="radioButton_Baudrate_115200" Content="115200"  Height="18" HorizontalAlignment="Left" VerticalAlignment="Top" Width="60" RenderTransformOrigin="0.825,-2.478" Margin="25,25,0,0" Checked="radioButton_Baudrate_115200_Checked" IsChecked="True"/>
+                    <RadioButton x:Name="radioButton_Baudrate_9600" Content="9600"  Height="18" HorizontalAlignment="Left" VerticalAlignment="Top" Width="50" RenderTransformOrigin="0.825,-2.478" Margin="90,25,0,0" Checked="radioButton_Baudrate_9600_Checked"/>
+                    <RadioButton x:Name="radioButton_CustomBaudRate" Content="s" HorizontalAlignment="Left" Margin="145,25,0,0" VerticalAlignment="Top" Checked="radioButton_CustomBaudRate_Checked" Height="18" Width="19" RenderTransformOrigin="5.053,7.278"/>
+                    <TextBox x:Name="textBox_Baudrate_Custom" HorizontalAlignment="Left" Height="18" Margin="164,23,0,0" TextWrapping="Wrap" Text="custom" VerticalAlignment="Top" Width="54" IsEnabled="False"/>
+                </Grid>
+            </StackPanel>
+            <StackPanel Grid.Row="1" Width="460" Orientation="Horizontal" >
+                
+                <Grid  Margin="0,0,0,0" Width="230" >
+                    <Label x:Name="label_SerialPort_DataBits" Content="Data bits:" HorizontalAlignment="Left" Height="24" Margin="25,0,0,0" VerticalAlignment="Top" Width="65" FontWeight="DemiBold" RenderTransformOrigin="0.482,0.469"/>
+                    <RadioButton x:Name="radioButton_DataBits_5" Content="5" HorizontalAlignment="Left" Margin="25,24,0,0" VerticalAlignment="Top" Checked="radioButton_DataBits_5_Checked" Height="14" Width="25" RenderTransformOrigin="0.56,-0.778"/>
+                    <RadioButton x:Name="radioButton_DataBits_6" Content="6" HorizontalAlignment="Left" Margin="55,24,0,0" VerticalAlignment="Top" Checked="radioButton_DataBits_6_Checked" RenderTransformOrigin="0.68,-1.667" Height="14" Width="25" />
+                    <RadioButton x:Name="radioButton_DataBits_7" Content="7" HorizontalAlignment="Left" Margin="85,24,0,0" VerticalAlignment="Top" Checked="radioButton_DataBits_7_Checked" Height="14" Width="25" RenderTransformOrigin="0.56,-0.778"/>
+                    <RadioButton x:Name="radioButton_DataBits_8" Content="8" HorizontalAlignment="Left" Margin="115,24,0,0" VerticalAlignment="Top" Checked="radioButton_DataBits_8_Checked" RenderTransformOrigin="0.68,-1.667" Height="14" Width="25" IsChecked="True" />
+                </Grid>
+                <Grid  Margin="0,0,0,0" Width="230">
+                    <Label x:Name="label_SerialPort_Parity" Content="Parity:" HorizontalAlignment="Left" Height="24" Margin="26,0,0,0" VerticalAlignment="Top" Width="66" FontWeight="DemiBold" RenderTransformOrigin="0.482,0.469"/>
+                    <RadioButton x:Name="radioButton_Parity_none" Content="none" HorizontalAlignment="Left" Margin="26,26,0,0" VerticalAlignment="Top" Checked="radioButton_Parity_none_Checked" Height="14" Width="47" RenderTransformOrigin="0.56,-0.778" IsChecked="True"/>
+                    <RadioButton x:Name="radioButton_Parity_odd" Content="odd" HorizontalAlignment="Left" Margin="78,26,0,0" VerticalAlignment="Top"  Checked="radioButton_Parity_odd_Checked" RenderTransformOrigin="0.68,-1.667" Height="14" Width="47"/>
+                    <RadioButton x:Name="radioButton_Parity_even" Content="even" HorizontalAlignment="Left" Margin="130,26,0,0" VerticalAlignment="Top" Checked="radioButton_Parity_even_Checked" Height="14" Width="44" RenderTransformOrigin="0.56,-0.778"/>
+                    <RadioButton x:Name="radioButton_Parity_mark" Content="mark" HorizontalAlignment="Left" Margin="179,26,0,0" VerticalAlignment="Top" Checked="radioButton_Parity_mark_Checked" RenderTransformOrigin="0.68,-1.667" Height="14" Width="47"/>
+                </Grid>
+            </StackPanel>
+            <StackPanel Grid.Row="2" Width="460" Orientation="Horizontal">
+               
+                <Grid  Width="230" Background="WhiteSmoke">
+                    <Label x:Name="label_SerialPort_Handshaking" Content="Handshaking" HorizontalAlignment="Left" Margin="25,0,0,0" VerticalAlignment="Top" FontWeight="DemiBold"/>
+                    <RadioButton x:Name="radioButton_Handshaking_none" Content="none" HorizontalAlignment="Left" Margin="25,25,0,0" VerticalAlignment="Top" Checked="radioButton_Handshaking_none_Checked" IsChecked="True"/>
+                    <RadioButton x:Name="radioButton_Handshaking_RTSCTS" Content="RTS/CTS" HorizontalAlignment="Left" Margin="75,25,0,0" VerticalAlignment="Top" Checked="radioButton_Handshaking_RTSCTS_Checked"/>
+                    <RadioButton x:Name="radioButton_Handshaking_xONXOFF" Content="XON/XOFF" HorizontalAlignment="Left" Margin="143,25,0,0" VerticalAlignment="Top" Checked="radioButton_Handshaking_xONXOFF_Checked"/>
+                    <RadioButton x:Name="radioButton_Handshaking_RTSCTS_XONXOFF" Content="RTS/CTS+XON/XOFF" HorizontalAlignment="Left" Margin="25,45,0,0" VerticalAlignment="Top" Checked="radioButton_Handshaking_RTSCTS_XONXOFF_Checked"/>
+
+                </Grid>
+                <Grid Width="230">
+                    <Label x:Name="label_SerialPort_StopBits" Content="Stop Bits:" HorizontalAlignment="Left" Margin="25,0,0,0" VerticalAlignment="Top" FontWeight="DemiBold"/>
+                    <RadioButton x:Name="radioButton_StopBits_1" Content="1" HorizontalAlignment="Left" Margin="25,25,0,0" VerticalAlignment="Top" IsChecked="True" Checked="radioButton_StopBits_1_Checked"/>
+                    <RadioButton x:Name="radioButton_StopBits_2" Content="2" HorizontalAlignment="Left" Margin="60,25,0,0" VerticalAlignment="Top" Checked="radioButton_StopBits_2_Checked"/>
+                    <RadioButton x:Name="radioButton_StopBits_3" Content="3" HorizontalAlignment="Left" Margin="95,25,0,0" VerticalAlignment="Top" Checked="radioButton_StopBits_3_Checked"/>
+                </Grid>
+            </StackPanel>
+        </Grid>
+        <Grid HorizontalAlignment="Right" Margin="00,10,20,10" Grid.Row="1">
+            <Grid.ColumnDefinitions >
+                <ColumnDefinition Width="50" />
+                <ColumnDefinition Width="50"/>
+                <ColumnDefinition Width="50"/>
+
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="25"/>
+                <RowDefinition Height="25"/>
+                <RowDefinition Height="25"/>
+                <RowDefinition Height="25"/>
+                <RowDefinition Height="25"/>
+                <RowDefinition Height="25"/>
+                <RowDefinition Height="25"/>
+                <RowDefinition Height="25"/>
+                <RowDefinition Height="25"/>
+                <RowDefinition Height="25"/>
+                <RowDefinition Height="25"/>
+                <RowDefinition Height="25"/>
+                <RowDefinition Height="25"/>
+                <RowDefinition Height="25"/>
+                <RowDefinition Height="25"/>
+                <RowDefinition Height="25"/>
+                <RowDefinition Height="25"/>
+                <RowDefinition Height="25"/>
+                <RowDefinition Height="25"/>
+                <RowDefinition Height="25"/>
+                <RowDefinition Height="25"/>
+                <RowDefinition Height="25"/>
+                <RowDefinition Height="25"/>
+                <RowDefinition Height="25"/>
+                <RowDefinition Height="25"/>
+                <RowDefinition Height="25"/>
+                <RowDefinition Height="25"/>
+                <RowDefinition Height="25"/>
+                <RowDefinition Height="25"/>
+                <RowDefinition Height="25"/>
+                <RowDefinition Height="25"/>
+            </Grid.RowDefinitions>
+            <Rectangle Name="a1" Fill="Bisque" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="1" Width="25" Margin="2,2,2,2" />
+            <TextBlock Grid.ColumnSpan="1" Grid.Row="0" Grid.Column="0" Text="a1" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="0,0,0,0" FontSize="10"/>
+
+            <Rectangle Name="b1" Fill="Gray" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="1" Width="25" Margin="2,2,2,2"/>
+            <TextBlock Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="1" Text="b1" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="0,0,0,0" FontSize="10"/>
+
+            <Rectangle Name="c1" Fill="Red" Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="1" Width="25" Margin="2,2,2,2"/>
+            <TextBlock Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="1" Text="c1" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="0,0,0,0" FontSize="10"/>
+
+            <Rectangle Name="a2" Fill="Bisque" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="1" Width="25" Margin="2,2,2,2" />
+            <TextBlock  Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="1" Text="a2" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="0,0,0,0" FontSize="10"/>
+
+            <Rectangle Name="b2" Fill="Gray" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="1" Width="25" Margin="2,2,2,2"/>
+            <TextBlock Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="1" Text="b2" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="0,0,0,0" FontSize="10"/>
+
+            <Rectangle Name="c2" Fill="Red" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="1" Width="25" Margin="2,2,2,2"/>
+            <TextBlock Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="1" Text="c2" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="0,0,0,0" FontSize="10"/>
+
+            <Rectangle Name="a3" Fill="Bisque" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="1" Width="25" Margin="2,2,2,2" />
+            <TextBlock Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="1" Text="a3" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="0,0,0,0" FontSize="10"/>
+
+            <Rectangle Name="b3" Fill="Gray" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="1" Width="25" Margin="2,2,2,2"/>
+            <TextBlock Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="1" Text="b3" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="0,0,0,0" FontSize="10"/>
+
+            <Rectangle Name="c3" Fill="Red" Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="1" Width="25" Margin="2,2,2,2"/>
+            <TextBlock Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="1" Text="c3" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="0,0,0,0" FontSize="10"/>
+
+            <Rectangle Name="a4" Fill="Bisque" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="1" Width="25" Margin="2,2,2,2" />
+            <TextBlock Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="1" Text="a4" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="0,0,0,0" FontSize="10"/>
+
+            <Rectangle Name="b4" Fill="Gray" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="1" Width="25" Margin="2,2,2,2"/>
+            <TextBlock Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="1" Text="b4" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="0,0,0,0" FontSize="10"/>
+
+            <Rectangle Name="c4" Fill="Red" Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="1" Width="25" Margin="2,2,2,2"/>
+            <TextBlock Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="1" Text="c4" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="0,0,0,0" FontSize="10"/>
+
+            <Rectangle Name="a5" Fill="Bisque" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="1" Width="25" Margin="2,2,2,2" />
+            <TextBlock Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="1" Text="a5" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="0,0,0,0" FontSize="10"/>
+
+            <Rectangle Name="b5" Fill="Gray" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="1" Width="25" Margin="2,2,2,2"/>
+            <TextBlock Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="1" Text="b5" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="0,0,0,0" FontSize="10"/>
+
+            <Rectangle Name="c5" Fill="Red" Grid.Row="4" Grid.Column="2" Grid.ColumnSpan="1" Width="25" Margin="2,2,2,2"/>
+            <TextBlock Grid.Row="4" Grid.Column="2" Grid.ColumnSpan="1" Text="c5" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="0,0,0,0" FontSize="10"/>
+
+            <Rectangle Name="a6" Fill="Bisque" Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="1" Width="25" Margin="2,2,2,2" />
+            <TextBlock Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="1" Text="a6" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="0,0,0,0" FontSize="10"/>
+
+            <Rectangle Name="b6" Fill="Gray" Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="1" Width="25" Margin="2,2,2,2"/>
+            <TextBlock Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="1" Text="b6" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="0,0,0,0" FontSize="10"/>
+
+            <Rectangle Name="c6" Fill="Red" Grid.Row="5" Grid.Column="2" Grid.ColumnSpan="1" Width="25" Margin="2,2,2,2"/>
+            <TextBlock Grid.Row="5" Grid.Column="2" Grid.ColumnSpan="1" Text="c6" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="0,0,0,0" FontSize="10"/>
+
+            <Rectangle Name="a7" Fill="Bisque" Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="1" Width="25" Margin="2,2,2,2" />
+            <TextBlock Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="1" Text="a7" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="0,0,0,0" FontSize="10"/>
+
+            <Rectangle Name="b7" Fill="Gray" Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="1" Width="25" Margin="2,2,2,2"/>
+            <TextBlock Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="1" Text="b7" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="0,0,0,0" FontSize="10"/>
+
+            <Rectangle Name="c7" Fill="Red" Grid.Row="6" Grid.Column="2" Grid.ColumnSpan="1" Width="25" Margin="2,2,2,2"/>
+            <TextBlock Grid.Row="6" Grid.Column="2" Grid.ColumnSpan="1" Text="c7" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="0,0,0,0" FontSize="10"/>
+
+            <Rectangle Name="a8" Fill="Bisque" Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="1" Width="25" Margin="2,2,2,2" />
+            <TextBlock Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="1" Text="a8" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="0,0,0,0" FontSize="10"/>
+
+            <Rectangle Name="b8" Fill="Gray" Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="1" Width="25" Margin="2,2,2,2"/>
+            <TextBlock Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="1" Text="b8" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="0,0,0,0" FontSize="10"/>
+
+            <Rectangle Name="c8" Fill="Red" Grid.Row="7" Grid.Column="2" Grid.ColumnSpan="1" Width="25" Margin="2,2,2,2"/>
+            <TextBlock Grid.Row="7" Grid.Column="2" Grid.ColumnSpan="1" Text="c8" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="0,0,0,0" FontSize="10"/>
+
+            <Rectangle Name="a9" Fill="Bisque" Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="1" Width="25" Margin="2,2,2,2" />
+            <TextBlock Grid.ColumnSpan="1" Grid.Row="8" Grid.Column="0" Text="a9" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="0,0,0,0" FontSize="10"/>
+
+            <Rectangle Name="b9" Fill="Gray" Grid.Row="8" Grid.Column="1" Grid.ColumnSpan="1" Width="25" Margin="2,2,2,2"/>
+            <TextBlock Grid.Row="8" Grid.Column="1" Grid.ColumnSpan="1" Text="b9" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="0,0,0,0" FontSize="10"/>
+
+            <Rectangle Name="c9" Fill="Red" Grid.Row="8" Grid.Column="2" Grid.ColumnSpan="1" Width="25" Margin="2,2,2,2"/>
+            <TextBlock Grid.Row="8" Grid.Column="2" Grid.ColumnSpan="1" Text="c9" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="0,0,0,0" FontSize="10"/>
+
+            <Rectangle Name="a10" Fill="Bisque" Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="1" Width="25" Margin="2,2,2,2" />
+            <TextBlock  Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="1" Text="a10" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="0,0,0,0" FontSize="10"/>
+
+            <Rectangle Name="b10" Fill="Gray" Grid.Row="9" Grid.Column="1" Grid.ColumnSpan="1" Width="25" Margin="2,2,2,2"/>
+            <TextBlock Grid.Row="9" Grid.Column="1" Grid.ColumnSpan="1" Text="b10" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="0,0,0,0" FontSize="10"/>
+
+            <Rectangle Name="c10" Fill="Red" Grid.Row="9" Grid.Column="2" Grid.ColumnSpan="1" Width="25" Margin="2,2,2,2"/>
+            <TextBlock Grid.Row="9" Grid.Column="2" Grid.ColumnSpan="1" Text="c10" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="0,0,0,0" FontSize="10"/>
+
+            <Rectangle Name="a11" Fill="Bisque" Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="1" Width="25" Margin="2,2,2,2" />
+            <TextBlock Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="1" Text="a11" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="0,0,0,0" FontSize="10"/>
+
+            <Rectangle Name="b11" Fill="Gray" Grid.Row="10" Grid.Column="1" Grid.ColumnSpan="1" Width="25" Margin="2,2,2,2"/>
+            <TextBlock Grid.Row="10" Grid.Column="1" Grid.ColumnSpan="1" Text="b11" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="0,0,0,0" FontSize="10"/>
+
+            <Rectangle Name="c11" Fill="Red" Grid.Row="10" Grid.Column="2" Grid.ColumnSpan="1" Width="25" Margin="2,2,2,2"/>
+            <TextBlock Grid.Row="10" Grid.Column="2" Grid.ColumnSpan="1" Text="c11" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="0,0,0,0" FontSize="10"/>
+
+            <Rectangle Name="a12" Fill="Bisque" Grid.Row="11" Grid.Column="0" Grid.ColumnSpan="1" Width="25" Margin="2,2,2,2" />
+            <TextBlock Grid.Row="11" Grid.Column="0" Grid.ColumnSpan="1" Text="a12" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="0,0,0,0" FontSize="10"/>
+
+            <Rectangle Name="b12" Fill="Gray" Grid.Row="11" Grid.Column="1" Grid.ColumnSpan="1" Width="25" Margin="2,2,2,2"/>
+            <TextBlock Grid.Row="11" Grid.Column="1" Grid.ColumnSpan="1" Text="b12" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="0,0,0,0" FontSize="10"/>
+
+            <Rectangle Name="c12" Fill="Red" Grid.Row="11" Grid.Column="2" Grid.ColumnSpan="1" Width="25" Margin="2,2,2,2"/>
+            <TextBlock Grid.Row="11" Grid.Column="2" Grid.ColumnSpan="1" Text="c12" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="0,0,0,0" FontSize="10"/>
+
+            <Rectangle Name="a13" Fill="Bisque" Grid.Row="12" Grid.Column="0" Grid.ColumnSpan="1" Width="25" Margin="2,2,2,2" />
+            <TextBlock Grid.Row="12" Grid.Column="0" Grid.ColumnSpan="1" Text="a13" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="0,0,0,0" FontSize="10"/>
+
+            <Rectangle Name="b13" Fill="Gray" Grid.Row="12" Grid.Column="1" Grid.ColumnSpan="1" Width="25" Margin="2,2,2,2"/>
+            <TextBlock Grid.Row="12" Grid.Column="1" Grid.ColumnSpan="1" Text="b13" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="0,0,0,0" FontSize="10"/>
+
+            <Rectangle Name="c13" Fill="Red" Grid.Row="12" Grid.Column="2" Grid.ColumnSpan="1" Width="25" Margin="2,2,2,2"/>
+            <TextBlock Grid.Row="12" Grid.Column="2" Grid.ColumnSpan="1" Text="c13" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="0,0,0,0" FontSize="10"/>
+
+            <Rectangle Name="a14" Fill="Bisque" Grid.Row="13" Grid.Column="0" Grid.ColumnSpan="1" Width="25" Margin="2,2,2,2" />
+            <TextBlock Grid.Row="13" Grid.Column="0" Grid.ColumnSpan="1" Text="a14" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="0,0,0,0" FontSize="10"/>
+
+            <Rectangle Name="b14" Fill="Gray" Grid.Row="13" Grid.Column="1" Grid.ColumnSpan="1" Width="25" Margin="2,2,2,2"/>
+            <TextBlock Grid.Row="13" Grid.Column="1" Grid.ColumnSpan="1" Text="b14" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="0,0,0,0" FontSize="10"/>
+
+            <Rectangle Name="c14" Fill="Red" Grid.Row="13" Grid.Column="2" Grid.ColumnSpan="1" Width="25" Margin="2,2,2,2"/>
+            <TextBlock Grid.Row="13" Grid.Column="2" Grid.ColumnSpan="1" Text="c14" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="0,0,0,0" FontSize="10"/>
+
+            <Rectangle Name="a15" Fill="Bisque" Grid.Row="14" Grid.Column="0" Grid.ColumnSpan="1" Width="25" Margin="2,2,2,2" />
+            <TextBlock Grid.Row="14" Grid.Column="0" Grid.ColumnSpan="1" Text="a15" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="0,0,0,0" FontSize="10"/>
+
+            <Rectangle Name="b15" Fill="Gray" Grid.Row="14" Grid.Column="1" Grid.ColumnSpan="1" Width="25" Margin="2,2,2,2"/>
+            <TextBlock Grid.Row="14" Grid.Column="1" Grid.ColumnSpan="1" Text="b15" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="0,0,0,0" FontSize="10"/>
+
+            <Rectangle Name="c15" Fill="Red" Grid.Row="14" Grid.Column="2" Grid.ColumnSpan="1" Width="25" Margin="2,2,2,2"/>
+            <TextBlock Grid.Row="14" Grid.Column="2" Grid.ColumnSpan="1" Text="c15" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="0,0,0,0" FontSize="10"/>
+
+            <Rectangle Name="a16" Fill="Bisque" Grid.Row="15" Grid.Column="0" Grid.ColumnSpan="1" Width="25" Margin="2,2,2,2" />
+            <TextBlock Grid.Row="15" Grid.Column="0" Grid.ColumnSpan="1" Text="a16" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="0,0,0,0" FontSize="10"/>
+
+            <Rectangle Name="b16" Fill="Gray" Grid.Row="15" Grid.Column="1" Grid.ColumnSpan="1" Width="25" Margin="2,2,2,2"/>
+            <TextBlock Grid.Row="15" Grid.Column="1" Grid.ColumnSpan="1" Text="b16" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="0,0,0,0" FontSize="10"/>
+
+            <Rectangle Name="c16" Fill="Red" Grid.Row="15" Grid.Column="2" Grid.ColumnSpan="1" Width="25" Margin="2,2,2,2"/>
+            <TextBlock Grid.Row="15" Grid.Column="2" Grid.ColumnSpan="1" Text="c16" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="0,0,0,0" FontSize="10"/>
+
+            <Rectangle Name="a17" Fill="Bisque" Grid.Row="16" Grid.Column="0" Grid.ColumnSpan="1" Width="25" Margin="2,2,2,2" />
+            <TextBlock Grid.ColumnSpan="1" Grid.Row="16" Grid.Column="0" Text="a17" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="0,0,0,0" FontSize="10"/>
+
+            <Rectangle Name="b17" Fill="Gray" Grid.Row="16" Grid.Column="1" Grid.ColumnSpan="1" Width="25" Margin="2,2,2,2"/>
+            <TextBlock Grid.Row="16" Grid.Column="1" Grid.ColumnSpan="1" Text="b17" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="0,0,0,0" FontSize="10"/>
+
+            <Rectangle Name="c17" Fill="Red" Grid.Row="16" Grid.Column="2" Grid.ColumnSpan="1" Width="25" Margin="2,2,2,2"/>
+            <TextBlock Grid.Row="16" Grid.Column="2" Grid.ColumnSpan="1" Text="c17" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="0,0,0,0" FontSize="10"/>
+
+            <Rectangle Name="a18" Fill="Bisque" Grid.Row="17" Grid.Column="0" Grid.ColumnSpan="1" Width="25" Margin="2,2,2,2" />
+            <TextBlock  Grid.Row="17" Grid.Column="0" Grid.ColumnSpan="1" Text="a18" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="0,0,0,0" FontSize="10"/>
+
+            <Rectangle Name="b18" Fill="Gray" Grid.Row="17" Grid.Column="1" Grid.ColumnSpan="1" Width="25" Margin="2,2,2,2"/>
+            <TextBlock Grid.Row="17" Grid.Column="1" Grid.ColumnSpan="1" Text="b18" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="0,0,0,0" FontSize="10"/>
+
+            <Rectangle Name="c18" Fill="Red" Grid.Row="17" Grid.Column="2" Grid.ColumnSpan="1" Width="25" Margin="2,2,2,2"/>
+            <TextBlock Grid.Row="17" Grid.Column="2" Grid.ColumnSpan="1" Text="c18" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="0,0,0,0" FontSize="10"/>
+
+            <Rectangle Name="a19" Fill="Bisque" Grid.Row="18" Grid.Column="0" Grid.ColumnSpan="1" Width="25" Margin="2,2,2,2" />
+            <TextBlock Grid.Row="18" Grid.Column="0" Grid.ColumnSpan="1" Text="a19" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="0,0,0,0" FontSize="10"/>
+
+            <Rectangle Name="b19" Fill="Gray" Grid.Row="18" Grid.Column="1" Grid.ColumnSpan="1" Width="25" Margin="2,2,2,2"/>
+            <TextBlock Grid.Row="18" Grid.Column="1" Grid.ColumnSpan="1" Text="b19" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="0,0,0,0" FontSize="10"/>
+
+            <Rectangle Name="c19" Fill="Red" Grid.Row="18" Grid.Column="2" Grid.ColumnSpan="1" Width="25" Margin="2,2,2,2"/>
+            <TextBlock Grid.Row="18" Grid.Column="2" Grid.ColumnSpan="1" Text="c19" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="0,0,0,0" FontSize="10"/>
+
+            <Rectangle Name="a20" Fill="Bisque" Grid.Row="19" Grid.Column="0" Grid.ColumnSpan="1" Width="25" Margin="2,2,2,2" />
+            <TextBlock Grid.Row="19" Grid.Column="0" Grid.ColumnSpan="1" Text="a20" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="0,0,0,0" FontSize="10"/>
+
+            <Rectangle Name="b20" Fill="Gray" Grid.Row="19" Grid.Column="1" Grid.ColumnSpan="1" Width="25" Margin="2,2,2,2"/>
+            <TextBlock Grid.Row="19" Grid.Column="1" Grid.ColumnSpan="1" Text="b20" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="0,0,0,0" FontSize="10"/>
+
+            <Rectangle Name="c20" Fill="Red" Grid.Row="19" Grid.Column="2" Grid.ColumnSpan="1" Width="25" Margin="2,2,2,2"/>
+            <TextBlock Grid.Row="19" Grid.Column="2" Grid.ColumnSpan="1" Text="c20" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="0,0,0,0" FontSize="10"/>
+
+            <Rectangle Name="a21" Fill="Bisque" Grid.Row="20" Grid.Column="0" Grid.ColumnSpan="1" Width="25" Margin="2,2,2,2" />
+            <TextBlock Grid.Row="20" Grid.Column="0" Grid.ColumnSpan="1" Text="a21" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="0,0,0,0" FontSize="10"/>
+
+            <Rectangle Name="b21" Fill="Gray" Grid.Row="20" Grid.Column="1" Grid.ColumnSpan="1" Width="25" Margin="2,2,2,2"/>
+            <TextBlock Grid.Row="20" Grid.Column="1" Grid.ColumnSpan="1" Text="b21" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="0,0,0,0" FontSize="10"/>
+
+            <Rectangle Name="c21" Fill="Red" Grid.Row="20" Grid.Column="2" Grid.ColumnSpan="1" Width="25" Margin="2,2,2,2"/>
+            <TextBlock Grid.Row="20" Grid.Column="2" Grid.ColumnSpan="1" Text="c21" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="0,0,0,0" FontSize="10"/>
+
+            <Rectangle Name="a22" Fill="Bisque" Grid.Row="21" Grid.Column="0" Grid.ColumnSpan="1" Width="25" Margin="2,2,2,2" />
+            <TextBlock Grid.Row="21" Grid.Column="0" Grid.ColumnSpan="1" Text="a22" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="0,0,0,0" FontSize="10"/>
+
+            <Rectangle Name="b22" Fill="Gray" Grid.Row="21" Grid.Column="1" Grid.ColumnSpan="1" Width="25" Margin="2,2,2,2"/>
+            <TextBlock Grid.Row="21" Grid.Column="1" Grid.ColumnSpan="1" Text="b22" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="0,0,0,0" FontSize="10"/>
+
+            <Rectangle Name="c22" Fill="Red" Grid.Row="21" Grid.Column="2" Grid.ColumnSpan="1" Width="25" Margin="2,2,2,2"/>
+            <TextBlock Grid.Row="21" Grid.Column="2" Grid.ColumnSpan="1" Text="c22" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="0,0,0,0" FontSize="10"/>
+
+            <Rectangle Name="a23" Fill="Bisque" Grid.Row="22" Grid.Column="0" Grid.ColumnSpan="1" Width="25" Margin="2,2,2,2" />
+            <TextBlock Grid.Row="22" Grid.Column="0" Grid.ColumnSpan="1" Text="a23" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="0,0,0,0" FontSize="10"/>
+
+            <Rectangle Name="b23" Fill="Gray" Grid.Row="22" Grid.Column="1" Grid.ColumnSpan="1" Width="25" Margin="2,2,2,2"/>
+            <TextBlock Grid.Row="22" Grid.Column="1" Grid.ColumnSpan="1" Text="b23" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="0,0,0,0" FontSize="10"/>
+
+            <Rectangle Name="c23" Fill="Red" Grid.Row="22" Grid.Column="2" Grid.ColumnSpan="1" Width="25" Margin="2,2,2,2"/>
+            <TextBlock Grid.Row="22" Grid.Column="2" Grid.ColumnSpan="1" Text="c23" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="0,0,0,0" FontSize="10"/>
+
+            <Rectangle Name="a24" Fill="Bisque" Grid.Row="23" Grid.Column="0" Grid.ColumnSpan="1" Width="25" Margin="2,2,2,2" />
+            <TextBlock Grid.Row="23" Grid.Column="0" Grid.ColumnSpan="1" Text="a24" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="0,0,0,0" FontSize="10"/>
+
+            <Rectangle Name="b24" Fill="Gray" Grid.Row="23" Grid.Column="1" Grid.ColumnSpan="1" Width="25" Margin="2,2,2,2"/>
+            <TextBlock Grid.Row="23" Grid.Column="1" Grid.ColumnSpan="1" Text="b24" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="0,0,0,0" FontSize="10"/>
+
+            <Rectangle Name="c24" Fill="Red" Grid.Row="23" Grid.Column="2" Grid.ColumnSpan="1" Width="25" Margin="2,2,2,2"/>
+            <TextBlock Grid.Row="23" Grid.Column="2" Grid.ColumnSpan="1" Text="c24" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="0,0,0,0" FontSize="10"/>
+
+            <Rectangle Name="a25" Fill="Bisque" Grid.Row="24" Grid.Column="0" Grid.ColumnSpan="1" Width="25" Margin="2,2,2,2" />
+            <TextBlock Grid.ColumnSpan="1" Grid.Row="24" Grid.Column="0" Text="a25" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="0,0,0,0" FontSize="10"/>
+
+            <Rectangle Name="b25" Fill="Gray" Grid.Row="24" Grid.Column="1" Grid.ColumnSpan="1" Width="25" Margin="2,2,2,2"/>
+            <TextBlock Grid.Row="24" Grid.Column="1" Grid.ColumnSpan="1" Text="b25" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="0,0,0,0" FontSize="10"/>
+
+            <Rectangle Name="c25" Fill="Red" Grid.Row="24" Grid.Column="2" Grid.ColumnSpan="1" Width="25" Margin="2,2,2,2"/>
+            <TextBlock Grid.Row="24" Grid.Column="2" Grid.ColumnSpan="1" Text="c25" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="0,0,0,0" FontSize="10"/>
+
+            <Rectangle Name="a26" Fill="Bisque" Grid.Row="25" Grid.Column="0" Grid.ColumnSpan="1" Width="25" Margin="2,2,2,2" />
+            <TextBlock  Grid.Row="25" Grid.Column="0" Grid.ColumnSpan="1" Text="a26" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="0,0,0,0" FontSize="10"/>
+
+            <Rectangle Name="b26" Fill="Gray" Grid.Row="25" Grid.Column="1" Grid.ColumnSpan="1" Width="25" Margin="2,2,2,2"/>
+            <TextBlock Grid.Row="25" Grid.Column="1" Grid.ColumnSpan="1" Text="b26" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="0,0,0,0" FontSize="10"/>
+
+            <Rectangle Name="c26" Fill="Red" Grid.Row="25" Grid.Column="2" Grid.ColumnSpan="1" Width="25" Margin="2,2,2,2"/>
+            <TextBlock Grid.Row="25" Grid.Column="2" Grid.ColumnSpan="1" Text="c26" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="0,0,0,0" FontSize="10"/>
+
+            <Rectangle Name="a27" Fill="Bisque" Grid.Row="26" Grid.Column="0" Grid.ColumnSpan="1" Width="25" Margin="2,2,2,2" />
+            <TextBlock Grid.Row="26" Grid.Column="0" Grid.ColumnSpan="1" Text="a27" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="0,0,0,0" FontSize="10"/>
+
+            <Rectangle Name="b27" Fill="Gray" Grid.Row="26" Grid.Column="1" Grid.ColumnSpan="1" Width="25" Margin="2,2,2,2"/>
+            <TextBlock Grid.Row="26" Grid.Column="1" Grid.ColumnSpan="1" Text="b27" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="0,0,0,0" FontSize="10"/>
+
+            <Rectangle Name="c27" Fill="Red" Grid.Row="26" Grid.Column="2" Grid.ColumnSpan="1" Width="25" Margin="2,2,2,2"/>
+            <TextBlock Grid.Row="26" Grid.Column="2" Grid.ColumnSpan="1" Text="c27" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="0,0,0,0" FontSize="10"/>
+
+            <Rectangle Name="a28" Fill="Bisque" Grid.Row="27" Grid.Column="0" Grid.ColumnSpan="1" Width="25" Margin="2,2,2,2" />
+            <TextBlock Grid.Row="27" Grid.Column="0" Grid.ColumnSpan="1" Text="a28" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="0,0,0,0" FontSize="10"/>
+
+            <Rectangle Name="b28" Fill="Gray" Grid.Row="27" Grid.Column="1" Grid.ColumnSpan="1" Width="25" Margin="2,2,2,2"/>
+            <TextBlock Grid.Row="27" Grid.Column="1" Grid.ColumnSpan="1" Text="b28" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="0,0,0,0" FontSize="10"/>
+
+            <Rectangle Name="c28" Fill="Red" Grid.Row="27" Grid.Column="2" Grid.ColumnSpan="1" Width="25" Margin="2,2,2,2"/>
+            <TextBlock Grid.Row="27" Grid.Column="2" Grid.ColumnSpan="1" Text="c28" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="0,0,0,0" FontSize="10"/>
+
+            <Rectangle Name="a29" Fill="Bisque" Grid.Row="28" Grid.Column="0" Grid.ColumnSpan="1" Width="25" Margin="2,2,2,2" />
+            <TextBlock Grid.Row="28" Grid.Column="0" Grid.ColumnSpan="1" Text="a29" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="0,0,0,0" FontSize="10"/>
+
+            <Rectangle Name="b29" Fill="Gray" Grid.Row="28" Grid.Column="1" Grid.ColumnSpan="1" Width="25" Margin="2,2,2,2"/>
+            <TextBlock Grid.Row="28" Grid.Column="1" Grid.ColumnSpan="1" Text="b29" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="0,0,0,0" FontSize="10"/>
+
+            <Rectangle Name="c29" Fill="Red" Grid.Row="28" Grid.Column="2" Grid.ColumnSpan="1" Width="25" Margin="2,2,2,2"/>
+            <TextBlock Grid.Row="28" Grid.Column="2" Grid.ColumnSpan="1" Text="c29" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="0,0,0,0" FontSize="10"/>
+
+            <Rectangle Name="a30" Fill="Bisque" Grid.Row="29" Grid.Column="0" Grid.ColumnSpan="1" Width="25" Margin="2,2,2,2" />
+            <TextBlock Grid.Row="29" Grid.Column="0" Grid.ColumnSpan="1" Text="a30" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="0,0,0,0" FontSize="10"/>
+
+            <Rectangle Name="b30" Fill="Gray" Grid.Row="29" Grid.Column="1" Grid.ColumnSpan="1" Width="25" Margin="2,2,2,2"/>
+            <TextBlock Grid.Row="29" Grid.Column="1" Grid.ColumnSpan="1" Text="b30" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="0,0,0,0" FontSize="10"/>
+
+            <Rectangle Name="c30" Fill="Red" Grid.Row="29" Grid.Column="2" Grid.ColumnSpan="1" Width="25" Margin="2,2,2,2"/>
+            <TextBlock Grid.Row="29" Grid.Column="2" Grid.ColumnSpan="1" Text="c30" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="0,0,0,0" FontSize="10"/>
+
+            <Rectangle Name="a31" Fill="Bisque" Grid.Row="30" Grid.Column="0" Grid.ColumnSpan="1" Width="25" Margin="2,2,2,2" />
+            <TextBlock Grid.Row="30" Grid.Column="0" Grid.ColumnSpan="1" Text="a31" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="0,0,0,0" FontSize="10"/>
+
+            <Rectangle Name="b31" Fill="Gray" Grid.Row="30" Grid.Column="1" Grid.ColumnSpan="1" Width="25" Margin="2,2,2,2"/>
+            <TextBlock Grid.Row="30" Grid.Column="1" Grid.ColumnSpan="1" Text="b31" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="0,0,0,0" FontSize="10"/>
+
+            <Rectangle Name="c31" Fill="Red" Grid.Row="30" Grid.Column="2" Grid.ColumnSpan="1" Width="25" Margin="2,2,2,2"/>
+            <TextBlock Grid.Row="30" Grid.Column="2" Grid.ColumnSpan="1" Text="c31" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="0,0,0,0" FontSize="10"/>
+
+            <Rectangle Name="a32" Fill="Bisque" Grid.Row="31" Grid.Column="0" Grid.ColumnSpan="1" Width="25" Margin="2,2,2,2" />
+            <TextBlock Grid.Row="31" Grid.Column="0" Grid.ColumnSpan="1" Text="a32" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="0,0,0,0" FontSize="10"/>
+
+            <Rectangle Name="b32" Fill="Gray" Grid.Row="31" Grid.Column="1" Grid.ColumnSpan="1" Width="25" Margin="2,2,2,2"/>
+            <TextBlock Grid.Row="31" Grid.Column="1" Grid.ColumnSpan="1" Text="b32" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="0,0,0,0" FontSize="10"/>
+
+            <Rectangle Name="c32" Fill="Red" Grid.Row="31" Grid.Column="2" Grid.ColumnSpan="1" Width="25" Margin="2,2,2,2"/>
+            <TextBlock Grid.Row="31" Grid.Column="2" Grid.ColumnSpan="1" Text="c32" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="0,0,0,0" FontSize="10"/>
+
+
+
+        </Grid>
+       
+        <Grid HorizontalAlignment="Left"  VerticalAlignment="Top" Margin="45,220,0,25" Grid.Row="1" Height="480" Width="550">
+            
+            <Grid.RowDefinitions>
+                <RowDefinition Height="25"/>
+                <RowDefinition Height="*"/>
+                
+            </Grid.RowDefinitions>
+            <Border  BorderBrush="WhiteSmoke" Grid.Row="1" Grid.RowSpan="1" BorderThickness="1,1,1,1" Background="{x:Null}" CornerRadius="2"/>
+            <Label x:Name="label_SerialPort_Recieved" Content="Recieved:" HorizontalAlignment="Left" Margin="10,-1,0,0" VerticalAlignment="Top" Grid.Row="0" FontWeight="DemiBold"/>
+            <FlowDocumentScrollViewer Grid.Row="1" IsEnabled="False">
+                <FlowDocument>
+                    
+                </FlowDocument>
+            </FlowDocumentScrollViewer>
+        </Grid>
+        <Grid HorizontalAlignment="Right"  Grid.Row="2"  VerticalAlignment="Top" Width="517">
+            <Image DockPanel.Dock="Right" HorizontalAlignment="Right" Height="40" Width="40" Margin="0,3,70,0" />
+            <Label HorizontalAlignment="Right" Content="FiTech 2017" Height="20" FontSize="12" Padding="0,2,0,0" Margin="0,5,10,0" />
+
+        </Grid>
+    </Grid>
+</Window>
