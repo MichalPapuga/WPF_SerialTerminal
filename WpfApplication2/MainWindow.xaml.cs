@@ -44,6 +44,10 @@ namespace WpfApplication2
 
         public static string message;
 
+        public static int Statistic_Rx_Counter = 0;
+        public static int Statistic_Tx_Counter = 0;
+
+
         Action action;
 
         public MainWindow()
@@ -59,8 +63,9 @@ namespace WpfApplication2
                 comboBox.Items.Add(s);
 
             }
-            
-            
+
+            textBox_SerialPort_Stats_Rx.Text = Statistic_Rx_Counter.ToString();
+            textBox_SerialPort_Stats_Tx.Text = Statistic_Tx_Counter.ToString();
 
             if (comboBox.SelectedIndex == -1)
             {
@@ -104,6 +109,12 @@ namespace WpfApplication2
          //   Console.WriteLine(Thread.CurrentThread.IsThreadPoolThread);
 
             RichTextBox_Recive.AppendText(message);
+           // Statistic_Rx_Counter += _serialPort.BytesToRead;
+
+            textBox_SerialPort_Stats_Rx.Text = Statistic_Rx_Counter.ToString();
+
+
+
         }
 
 
@@ -114,12 +125,16 @@ namespace WpfApplication2
             {
                 try
                 {
+                   
                      message = _serialPort.ReadLine();
 
                     Console.WriteLine("COM port says: "+message+"\r\n");
 
-                    if (System.Threading.Thread.CurrentThread != RichTextBox_Recive.Dispatcher.Thread)
-                        RichTextBox_Recive.Dispatcher.Invoke(action);
+                    if  (System.Threading.Thread.CurrentThread != RichTextBox_Recive.Dispatcher.Thread)
+                        {
+                            RichTextBox_Recive.Dispatcher.Invoke(action);
+                            
+                        }
                     else
                         action();
                 
@@ -145,7 +160,7 @@ namespace WpfApplication2
         private static void SetTimer()
         {
             // Create a timer with a two second interval.
-            aTimer = new System.Timers.Timer(500);
+            aTimer = new System.Timers.Timer(200);
             // Hook up the Elapsed event for the timer. 
             aTimer.Elapsed += OnTimedEvent;
             aTimer.AutoReset = true;
@@ -197,7 +212,8 @@ namespace WpfApplication2
                 MessageBox.Show("COM port open!","Debug purpose only");
 
                 button_SerialPort_Open.Content = "Close Port";
-                button_SerialPort_Rescan.IsEnabled = false;
+            //    button_SerialPort_Rescan.IsEnabled = false;
+                DisableAllButtons();
                 Reading = new Thread(Read);
                 Reading.Start();
                 SetTimer();
@@ -215,20 +231,81 @@ namespace WpfApplication2
 
         }
 
+        private void DisableAllButtons()
+        {
+            button_SerialPort_Rescan.IsEnabled = false;
+            radioButton_Baudrate_115200.IsEnabled = false;
+            radioButton_Baudrate_9600.IsEnabled = false;
+            radioButton_CustomBaudRate.IsEnabled = false;
+
+            radioButton_DataBits_5.IsEnabled = false;
+            radioButton_DataBits_6.IsEnabled = false;
+            radioButton_DataBits_7.IsEnabled = false;
+            radioButton_DataBits_8.IsEnabled = false;
+
+            radioButton_Handshaking_none.IsEnabled = false;
+            radioButton_Handshaking_RTSCTS.IsEnabled = false;
+            radioButton_Handshaking_RTSCTS_XONXOFF.IsEnabled = false;
+            radioButton_Handshaking_xONXOFF.IsEnabled = false;
+
+            radioButton_Parity_even.IsEnabled = false;
+            radioButton_Parity_mark.IsEnabled = false;
+            radioButton_Parity_none.IsEnabled = false;
+            radioButton_Parity_odd.IsEnabled = false;
+
+            radioButton_StopBits_1.IsEnabled = false;
+            radioButton_StopBits_2.IsEnabled = false;
+            radioButton_StopBits_3.IsEnabled = false;
+            
+        }
+
+        private void EnableAllButtons()
+        {
+            button_SerialPort_Rescan.IsEnabled = true;
+            radioButton_Baudrate_115200.IsEnabled = true;
+            radioButton_Baudrate_9600.IsEnabled = true;
+            radioButton_CustomBaudRate.IsEnabled = true;
+
+            radioButton_DataBits_5.IsEnabled = true;
+            radioButton_DataBits_6.IsEnabled = true;
+            radioButton_DataBits_7.IsEnabled = true;
+            radioButton_DataBits_8.IsEnabled = true;
+
+            radioButton_Handshaking_none.IsEnabled = true;
+            radioButton_Handshaking_RTSCTS.IsEnabled = true;
+            radioButton_Handshaking_RTSCTS_XONXOFF.IsEnabled = true;
+            radioButton_Handshaking_xONXOFF.IsEnabled = true;
+
+            radioButton_Parity_even.IsEnabled = true;
+            radioButton_Parity_mark.IsEnabled = true;
+            radioButton_Parity_none.IsEnabled = true;
+            radioButton_Parity_odd.IsEnabled = true;
+
+            radioButton_StopBits_1.IsEnabled = true;
+            radioButton_StopBits_2.IsEnabled = true;
+            radioButton_StopBits_3.IsEnabled = true;
+
+
+        }
+
         private void PortClose(SerialPort serialPort)
         {
             try
             {
                 isPortOpen = false;
-                Reading.Abort();
+
+                Reading.Join();
                 aTimer.Stop();
                 aTimer.Dispose();
+             
 
                 serialPort.Close();
 
                 button_SerialPort_Open.Content = "Open Port";
 
-                button_SerialPort_Rescan.IsEnabled = true;
+                //button_SerialPort_Rescan.IsEnabled = true;
+
+                EnableAllButtons();
 
 
             }
@@ -428,6 +505,11 @@ namespace WpfApplication2
         private void radioButton_StopBits_3_Checked(object sender, RoutedEventArgs e)
         {
             SerialPort_StopBits = (StopBits)Enum.Parse(typeof(StopBits), "Two", true);
+        }
+
+        private void button_RichText_Clear_Click(object sender, RoutedEventArgs e)
+        {
+            RichTextBox_Recive.Document.Blocks.Clear();
         }
     }
 
