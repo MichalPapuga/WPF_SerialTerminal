@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="950" Width="800" 
         WindowStartupLocation="CenterScreen" ResizeMode="NoResize" >
-    <!-- Icon="favicon.ico" --> 
+    <!-- Icon="favicon.ico" -->
 
 
     <Grid VerticalAlignment="Top" Height="900">
@@ -45,7 +45,7 @@
                 </Grid>
             </StackPanel>
             <StackPanel Grid.Row="1" Width="460" Orientation="Horizontal" >
-                
+
                 <Grid  Margin="0,0,0,0" Width="230" >
                     <Label x:Name="label_SerialPort_DataBits" Content="Data bits:" HorizontalAlignment="Left" Height="24" Margin="25,0,0,0" VerticalAlignment="Top" Width="65" FontWeight="DemiBold" RenderTransformOrigin="0.482,0.469"/>
                     <RadioButton x:Name="radioButton_DataBits_5" Content="5" HorizontalAlignment="Left" Margin="25,24,0,0" VerticalAlignment="Top" Checked="radioButton_DataBits_5_Checked" Height="14" Width="25" RenderTransformOrigin="0.56,-0.778"/>
@@ -62,7 +62,7 @@
                 </Grid>
             </StackPanel>
             <StackPanel Grid.Row="2" Width="460" Orientation="Horizontal">
-               
+
                 <Grid  Width="230" Background="WhiteSmoke">
                     <Label x:Name="label_SerialPort_Handshaking" Content="Handshaking" HorizontalAlignment="Left" Margin="25,0,0,0" VerticalAlignment="Top" FontWeight="DemiBold"/>
                     <RadioButton x:Name="radioButton_Handshaking_none" Content="none" HorizontalAlignment="Left" Margin="25,25,0,0" VerticalAlignment="Top" Checked="radioButton_Handshaking_none_Checked" IsChecked="True"/>
@@ -410,9 +410,9 @@
 
 
         </Grid>
-       
+
         <Grid HorizontalAlignment="Left"  VerticalAlignment="Top" Margin="45,220,0,25" Grid.Row="1" Height="480" Width="550">
-            
+
             <Grid.RowDefinitions>
                 <RowDefinition Height="25"/>
                 <RowDefinition Height="*"/>
@@ -421,21 +421,22 @@
             </Grid.RowDefinitions>
             <Border  BorderBrush="WhiteSmoke" Grid.Row="1" Grid.RowSpan="1" BorderThickness="1,1,1,1" Background="{x:Null}" CornerRadius="2"/>
             <Label x:Name="label_SerialPort_Recieved" Content="Recieved:" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top" Grid.Row="0" FontWeight="DemiBold"/>
-            <FlowDocumentScrollViewer Grid.Row="1" IsEnabled="False">
-                <FlowDocument>
-                    
-                </FlowDocument>
-            </FlowDocumentScrollViewer>
+            <RichTextBox ScrollViewer.VerticalScrollBarVisibility="Auto" Name="RichTextBox_Recive" Grid.Row="1" IsEnabled="False">
+                
+            </RichTextBox>
             <StackPanel Grid.Row="2" HorizontalAlignment="Left" Orientation="Horizontal">
                 <Label x:Name="label_SerialPort_Stats" Content="Statistic" HorizontalAlignment="Left" Margin="10,0,0,0"/>
-                <Label x:Name="label_SerialPort_Stats_Rx" Content="Rx:" HorizontalAlignment="Left" Margin="0,0,0,0"/>
-                
+                <Label x:Name="label_SerialPort_Stats_Tx" Content="Tx:" HorizontalAlignment="Left" Margin="0,0,0,0"/>
+                <TextBox x:Name="textBox_SerialPort_Stats_Tx" HorizontalAlignment="Left" Height="20" Margin="0,0,0,1" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Bottom" Width="50" BorderBrush="White"/>
+                <Label x:Name="label_SerialPort_Stats_Rx" Content="Rx:" HorizontalAlignment="Left" Margin="0,0,0,0" Grid.Row="2" VerticalAlignment="Top"/>
+                <TextBox x:Name="textBox_SerialPort_Stats_Rx" HorizontalAlignment="Left" Height="20" Margin="0,0,0,1" Grid.Row="2" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Bottom" Width="50" BorderBrush="White"/>
             </StackPanel>
+            
         </Grid>
         <Grid HorizontalAlignment="Right"  Grid.Row="2"  VerticalAlignment="Top" Width="517">
             <Image DockPanel.Dock="Right" HorizontalAlignment="Right" Height="40" Width="40" Margin="0,3,70,0" />
             <Label HorizontalAlignment="Right" Content="FiTech 2017" Height="20" FontSize="12" Padding="0,2,0,0" Margin="0,5,10,0" />
-
         </Grid>
+        
     </Grid>
 </Window>

@@ -16,6 +16,8 @@ using System.IO.Ports;
 using System.IO;
 using System.Threading;
 using System.Reflection;
+using System.Timers;
+
 
 namespace WpfApplication2
 {
@@ -37,18 +39,28 @@ namespace WpfApplication2
         public string ImageURL;
         private Rectangle[] _rectangleArray;
 
+        public Thread Reading;
+        public static System.Timers.Timer aTimer;
+
+        public static string message;
+
+        Action action;
+
         public MainWindow()
         {
+            
 
             InitializeComponent();
 
-            
+            action = Run;
+
             foreach (string s in SerialPort.GetPortNames())
             {
                 comboBox.Items.Add(s);
 
             }
-
+            
+            
 
             if (comboBox.SelectedIndex == -1)
             {
@@ -80,11 +92,69 @@ namespace WpfApplication2
                 l.Fill = LimeGreen;
 
             }
-           
+            
+
+        
+
+        }
+
+        private void Run()
+        {
+         //   Console.WriteLine(Thread.CurrentThread.IsBackground);
+         //   Console.WriteLine(Thread.CurrentThread.IsThreadPoolThread);
+
+            RichTextBox_Recive.AppendText(message);
+        }
 
 
+        private void Read()
+        {
+
+            while (isPortOpen)
+            {
+                try
+                {
+                     message = _serialPort.ReadLine();
+
+                    Console.WriteLine("COM port says: "+message+"\r\n");
+
+                    if (System.Threading.Thread.CurrentThread != RichTextBox_Recive.Dispatcher.Thread)
+                        RichTextBox_Recive.Dispatcher.Invoke(action);
+                    else
+                        action();
+                
+                }
+                catch (Exception ex)
+                {
+                    if (ex is System.IO.IOException)
+                    {
+                        Console.WriteLine(ex.Message);
+                        return;
+                    }
+                    if (ex is TimeoutException)
+                    {
+
+                    }
+                }
+
+            }
+
+        }
 
 
+        private static void SetTimer()
+        {
+            // Create a timer with a two second interval.
+            aTimer = new System.Timers.Timer(500);
+            // Hook up the Elapsed event for the timer. 
+            aTimer.Elapsed += OnTimedEvent;
+            aTimer.AutoReset = true;
+            aTimer.Enabled = true;
+        }
+
+        private static void OnTimedEvent(Object source, ElapsedEventArgs e)
+        {
+            _serialPort.WriteLine("Write some text to Port! \r\n");
         }
 
         private void ComInitializer(string portname)
@@ -128,6 +198,9 @@ namespace WpfApplication2
 
                 button_SerialPort_Open.Content = "Close Port";
                 button_SerialPort_Rescan.IsEnabled = false;
+                Reading = new Thread(Read);
+                Reading.Start();
+                SetTimer();
 
             }
             catch(IOException e)
@@ -146,10 +219,18 @@ namespace WpfApplication2
         {
             try
             {
-                serialPort.Close();
-                button_SerialPort_Open.Content = "Open Port";
                 isPortOpen = false;
+                Reading.Abort();
+                aTimer.Stop();
+                aTimer.Dispose();
+
+                serialPort.Close();
+
+                button_SerialPort_Open.Content = "Open Port";
+
                 button_SerialPort_Rescan.IsEnabled = true;
+
+
             }
             catch (NullReferenceException d)
             {
@@ -349,4 +430,5 @@ namespace WpfApplication2
             SerialPort_StopBits = (StopBits)Enum.Parse(typeof(StopBits), "Two", true);
         }
     }
+
 }
