@@ -17,7 +17,7 @@ using System.IO;
 using System.Threading;
 using System.Reflection;
 using System.Timers;
-
+using System.ComponentModel;
 
 namespace WpfApplication2
 {
@@ -48,7 +48,14 @@ namespace WpfApplication2
         public static int Statistic_Tx_Counter = 0;
 
 
+
+
         Action action;
+
+        // setting up for Backgroundworker
+
+            private BackgroundWorker serialPort_Backgroundworker = null;
+
 
         public MainWindow()
         {
@@ -97,8 +104,25 @@ namespace WpfApplication2
                 l.Fill = LimeGreen;
 
             }
-            
 
+
+            while(serialPort_Backgroundworker != null) {
+
+
+                if (isPortOpen)
+                {
+
+                    button_SerialPort_Open.Content = "Close Port";
+                    DisableAllButtons();
+                }
+                else
+                {
+                    EnableAllButtons();
+                    button_SerialPort_Open.Content = "Close Port";
+                }
+
+            }
+            
         
 
         }
@@ -130,13 +154,13 @@ namespace WpfApplication2
 
                     Console.WriteLine("COM port says: "+message+"\r\n");
 
-                    if  (System.Threading.Thread.CurrentThread != RichTextBox_Recive.Dispatcher.Thread)
-                        {
-                            RichTextBox_Recive.Dispatcher.Invoke(action);
+//                    if  (System.Threading.Thread.CurrentThread != RichTextBox_Recive.Dispatcher.Thread)
+  //                      {
+    //                        RichTextBox_Recive.Dispatcher.Invoke(action);
                             
-                        }
-                    else
-                        action();
+      //                  }
+        //            else
+          //              action();
                 
                 }
                 catch (Exception ex)
@@ -211,20 +235,20 @@ namespace WpfApplication2
                 
                 MessageBox.Show("COM port open!","Debug purpose only");
 
-                button_SerialPort_Open.Content = "Close Port";
+                //*button_SerialPort_Open.Content = "Close Port";
             //    button_SerialPort_Rescan.IsEnabled = false;
-                DisableAllButtons();
-                Reading = new Thread(Read);
-                Reading.Start();
-                SetTimer();
+                //*DisableAllButtons();
+                //*Reading = new Thread(Read);
+                //*Reading.Start();
+                //*SetTimer();
 
             }
             catch(IOException e)
             {
                 MessageBox.Show("COM port open error! \r" + e.Message);
                 serialPort.Close();
-                button_SerialPort_Rescan.IsEnabled = true;
-                button_SerialPort_Open.Content = "Open Port";
+                //*button_SerialPort_Rescan.IsEnabled = true;
+                //*button_SerialPort_Open.Content = "Open Port";
                 isPortOpen = false;
             }
 
@@ -294,14 +318,14 @@ namespace WpfApplication2
             {
                 isPortOpen = false;
 
-                Reading.Join();
-                aTimer.Stop();
-                aTimer.Dispose();
+               // Reading.Join();
+               // aTimer.Stop();
+            //    aTimer.Dispose();
              
 
                 serialPort.Close();
 
-                button_SerialPort_Open.Content = "Open Port";
+              //  button_SerialPort_Open.Content = "Open Port";
 
                 //button_SerialPort_Rescan.IsEnabled = true;
 
@@ -318,14 +342,66 @@ namespace WpfApplication2
 
         private void button_SerialPort_Open_Click(object sender, RoutedEventArgs e)
         {
-            if (!isPortOpen)
+
+
+            try
+            {
+                // create new object of BackgroundWorker type. 
+             // lazy loading
+
+                if (null == serialPort_Backgroundworker)
+                {
+                    button_SerialPort_Open.Content = "Close Port";
+                    // new object 
+                    serialPort_Backgroundworker = new BackgroundWorker();
+
+                    // .DoWork event ->  Assign propertiy work with this thread
+                    serialPort_Backgroundworker.DoWork += new DoWorkEventHandler(serialPort_Backgroundworker_DoWork);
+
+                    // .RunWorkerCompleted event -> Callback after done work has to be done  
+                    serialPort_Backgroundworker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(serialPort_Backgroundworker_RunWorkerCompleted);
+
+                    // .ProgressChanged event -> Callback to indicate progress of executing task
+                    serialPort_Backgroundworker.ProgressChanged += new ProgressChangedEventHandler(serialPort_Backgroundworker_ProgressChanged);
+
+                    // .WorkerreportProgress properties -> let the thread to raport progerss of work
+                    serialPort_Backgroundworker.WorkerReportsProgress = true;
+
+                    // .WorkerSupportsCancelation properties -> let the break thread during working
+                    serialPort_Backgroundworker.WorkerSupportsCancellation = true;
+
+                    
+
+                    
+                }
+
+                else if ((null != serialPort_Backgroundworker) && serialPort_Backgroundworker.IsBusy)
+                {
+
+
+                    serialPort_Backgroundworker.CancelAsync();
+                }
+
+                if (!isPortOpen)
+                serialPort_Backgroundworker.RunWorkerAsync();
+            }
+            catch(Exception excepiton)
+            {
+                MessageBox.Show("Open click exeption:" + excepiton.Message);
+                button_SerialPort_Open.Content = "Open PORT";
+            }
+
+
+          /*  commented because this code movet to Backgroundworker.Dowork function
+           *  
+           *  if (!isPortOpen)
             {
 
-                isPortOpen = true;
+               isPortOpen = true;
 
-                ComInitializer(SerialPort_Name);
+               ComInitializer(SerialPort_Name);
                 //      buttonComPort.IsEnabled = false;
-                PortOpen(_serialPort);
+               PortOpen(_serialPort);
                 
                 
 
@@ -337,6 +413,8 @@ namespace WpfApplication2
                 
                 
             }
+            
+           */
         }
 
         private void button_SerialPort_Rescan_Click(object sender, RoutedEventArgs e)
@@ -355,6 +433,96 @@ namespace WpfApplication2
                 comboBox.SelectedIndex = 0;
             }
         }
+
+
+        void serialPort_Backgroundworker_DoWork(object sender, DoWorkEventArgs e)
+        {
+
+           // BackgroundWorker bgw = sender as BackgroundWorker;
+            // Initialize and open Serial port
+            try
+            {
+
+                ComInitializer(SerialPort_Name);
+                PortOpen(_serialPort);
+                isPortOpen = true;
+
+            }
+            catch (IOException s) {
+
+                MessageBox.Show("Some eerro in try/catch block serialPort_Backgroundworker_DoWork!/n" + s.Message);
+            }
+
+            // read from Serial port
+            // Read();
+
+            while(!serialPort_Backgroundworker.CancellationPending)
+            {
+
+                // message = _serialPort.ReadLine();
+
+                message = "Test!";
+                Thread.Sleep(10);
+                serialPort_Backgroundworker.ReportProgress(0, message);
+            }
+
+            // zasygnalizuj anulowanie wykonywania watku
+            e.Cancel = true;
+            
+            /*
+            try
+            {
+
+                message = _serialPort.ReadLine();
+                message = "Test!";
+                //                    bgw.ReportProgress(0, message);
+                Thread.Sleep(1000);
+                serialPort_Backgroundworker.ReportProgress(0, message);                 
+                //Console.WriteLine("COM port says: " + message + "\r\n");
+
+
+            }
+            catch(Exception ex)
+            {
+                if( ex is IOException)
+                {
+                    MessageBox.Show(ex.Message);
+                
+                if(ex is TimeoutException)
+                {
+
+                }
+
+
+            }*/
+            //System.Threading.Thread.Sleep(100);
+        }
+
+
+        void serialPort_Backgroundworker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+           
+            String recived_message = e.UserState as String;
+            RichTextBox_Recive.AppendText(recived_message);
+            //e.ProgressPercentage;
+        }
+
+        void serialPort_Backgroundworker_RunWorkerCompleted(object sender,RunWorkerCompletedEventArgs e)
+                                         
+        {
+
+            if (e.Cancelled)
+            {
+                MessageBox.Show("RunWorkerComplted. Appending to close port");
+              
+                PortClose(_serialPort);
+                button_SerialPort_Open.Content = "Open Port";
+
+             }
+            
+        }
+
+
 
 
         public static StopBits SetPortStopBits(StopBits defaultPortStopBits)
